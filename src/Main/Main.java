@@ -1,3 +1,5 @@
+package Main;
+
 import javax.swing.*;
 
 public class Main {
@@ -7,7 +9,7 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Mystery");
 
-        //GamePanel
+        //Main.GamePanel
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel); //add game screen
         window.pack();
