@@ -54,32 +54,42 @@ public class Player extends Entity{
         }
     }
 
-    public void update(){
-        if(keyH.upPressed == true){
+    public void update() {
+        if (keyH.upPressed == true) {
             direction = "up";
             y -= speed;
-        }if(keyH.downPressed == true){
+        }
+        if (keyH.downPressed == true) {
             direction = "down";
             y += speed;
-        }if(keyH.rightPressed == true){
+        }
+        if (keyH.rightPressed == true) {
             direction = "right";
             x += speed;
-        }if(keyH.leftPressed == true){
+        }
+        if (keyH.leftPressed == true) {
             direction = "left";
             x -= speed;
         }
-
-        spriteCounter++;
-        if (spriteCounter>10){
-            if(spriteNum ==  1){
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 3;
+        //if (keyH.rightPressed || keyH.leftPressed || keyH.upPressed || keyH.downPressed) {
+        // I have 3 image of slime that change the Y direction, so in order to make it move
+        // I just need to loop it
+            spriteCounter++;
+            if (spriteCounter > 10) {
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2 && spritNum2 == 0) {
+                    spriteNum = 3;
+                } else if (spriteNum == 3 && spritNum2 == 0) {
+                    spriteNum = 2;
+                    spritNum2 = 1;
+                } else if (spriteNum == 2 && spritNum2 == 1) {
+                    spriteNum = 1;
+                    spritNum2 = 0;
+                }
+                spriteCounter = 0;
             }
-            else if (spriteNum == 3 ){
-                spriteNum = 1;
-            }
-        }
+        //}
     }
     public void draw(Graphics2D g2){
         BufferedImage image = null;
