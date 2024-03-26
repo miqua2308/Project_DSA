@@ -12,17 +12,24 @@ public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
 
+    //coordinate of screen
+    public final int screenX;
+    public final int screenY;
+
 
     public Player(GamePanel gp, KeyHandler keyH){
         this.gp = gp;
         this.keyH = keyH;
+
+        this.screenX = gp.screenWidth/2 -(gp.tileSize/2);
+        this.screenY = gp.screenHeight/2 - (gp.tileSize/2);
         getPlayerImage();
         setDefaultValues();
     }
 
     public void setDefaultValues(){
-        this.x = 100;
-        this.y = 100;
+        this.worldX = gp.tileSize * 41;
+        this.worldY = gp.tileSize * 48;
         this.speed = 4;
         direction = "right";
     }
@@ -57,19 +64,19 @@ public class Player extends Entity{
     public void update() {
         if (keyH.upPressed == true) {
             direction = "up";
-            y -= speed;
+            worldY -= speed;
         }
         if (keyH.downPressed == true) {
             direction = "down";
-            y += speed;
+            worldY += speed;
         }
         if (keyH.rightPressed == true) {
             direction = "right";
-            x += speed;
+            worldX += speed;
         }
         if (keyH.leftPressed == true) {
             direction = "left";
-            x -= speed;
+            worldX -= speed;
         }
         //if (keyH.rightPressed || keyH.leftPressed || keyH.upPressed || keyH.downPressed) {
         // I have 3 image of slime that change the Y direction, so in order to make it move
@@ -131,6 +138,6 @@ public class Player extends Entity{
                 }
                 break;
         }
-        g2.drawImage(image ,x,y,gp.tileSize,gp.tileSize,null);
+        g2.drawImage(image ,screenX,screenY,gp.tileSize,gp.tileSize,null);
     }
 }
