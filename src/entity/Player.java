@@ -23,6 +23,13 @@ public class Player extends Entity{
 
         this.screenX = gp.screenWidth/2 -(gp.tileSize/2);
         this.screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        hitBox = new Rectangle();
+        hitBox.x = 5*3; //3 is the scale
+        hitBox.y = 4*3;
+        hitBox.width = gp.tileSize/2; // i has calculate it outside
+        hitBox.height = gp.tileSize/2;
+
         getPlayerImage();
         setDefaultValues();
     }
@@ -62,23 +69,43 @@ public class Player extends Entity{
     }
 
     public void update() {
-        if (keyH.upPressed == true) {
-            direction = "up";
-            worldY -= speed;
+
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+            if (keyH.upPressed) {
+                direction = "up";
+            }
+            if (keyH.downPressed) {
+                direction = "down";
+            }
+            if (keyH.rightPressed) {
+                direction = "right";
+            }
+            if (keyH.leftPressed) {
+                direction = "left";
+            }
+            //check collision
+            collision = false;
+            gp.collisionChecker.checkTile(this);
+
+            //if collision is false => player can move
+            if (!collision) {
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                }
+            }
         }
-        if (keyH.downPressed == true) {
-            direction = "down";
-            worldY += speed;
-        }
-        if (keyH.rightPressed == true) {
-            direction = "right";
-            worldX += speed;
-        }
-        if (keyH.leftPressed == true) {
-            direction = "left";
-            worldX -= speed;
-        }
-        //if (keyH.rightPressed || keyH.leftPressed || keyH.upPressed || keyH.downPressed) {
+
         // I have 3 image of slime that change the Y direction, so in order to make it move
         // I just need to loop it
             spriteCounter++;
@@ -96,7 +123,6 @@ public class Player extends Entity{
                 }
                 spriteCounter = 0;
             }
-        //}
     }
     public void draw(Graphics2D g2){
         BufferedImage image = null;

@@ -30,6 +30,8 @@ public class GamePanel extends JPanel implements Runnable{
     KeyHandler keyH = new KeyHandler(); //call the key handler
     Thread gameThread; //start gameclock
     public Player player = new Player(this,keyH);
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
+
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
