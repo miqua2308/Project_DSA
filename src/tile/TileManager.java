@@ -79,13 +79,7 @@ public class TileManager {
         catch (Exception e){}
     }
 
-    public void checkMap(){
-        for (int i = 0; i< mapTileNum.length ; i++){
-            for(int j =0; j< mapTileNum[i].length; j++){
-                System.out.print(mapTileNum[i][j]);
-            }
-        }
-    }
+
     public void draw(Graphics2D g2){
         // setup a matrix for background
         int worldCol = 0;

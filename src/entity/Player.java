@@ -28,7 +28,7 @@ public class Player extends Entity{
     }
 
     public void setDefaultValues(){
-        this.worldX = gp.tileSize * 41;
+        this.worldX = gp.tileSize * 41; //coordiate of x in world map
         this.worldY = gp.tileSize * 48;
         this.speed = 4;
         direction = "right";
