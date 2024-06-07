@@ -150,7 +150,7 @@ public class Player extends Entity{
                 case "Key":
                     hasKey++;
                     gp.obj[i] = null;
-                    System.out.println("Key:" + hasKey);
+                    gp.ui.showMessage("You got a key!, you can use this to open door");
                     break;
                 case "Boot":
                     speed+=2;

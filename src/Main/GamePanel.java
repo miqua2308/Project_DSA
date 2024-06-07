@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable{
     //Important setting
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(); //call the key handler
+    public UI ui = new UI(this);
     Thread gameThread; //start gameclock
     public  AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this,keyH);
@@ -47,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         aSetter.setObject();
+
     }
 
     public void startGameThread(){
@@ -99,6 +101,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         player.draw(g2);
+        ui.draw(g2);
         g2.dispose();
     }
 
