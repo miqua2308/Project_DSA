@@ -1,6 +1,7 @@
 package objects;
 
 import Main.GamePanel;
+import Main.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,7 @@ public class SuperObject {
     public Rectangle hitBox = new Rectangle(0,0,48,48); //16 x scale(3) = 48
     public int hitBoxDefaultX = 0;
     public int hitBoxDefaultY = 0;
+
 
 
     public void draw(Graphics2D g2, GamePanel gp){

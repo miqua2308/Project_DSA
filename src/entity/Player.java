@@ -2,6 +2,7 @@ package entity;
 
 import Main.GamePanel;
 import Main.KeyHandler;
+import Main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -43,34 +44,41 @@ public class Player extends Entity{
         this.worldX = gp.tileSize * 41; //coordiate of x in world map
         this.worldY = gp.tileSize * 48;
         this.speed = 4;
+        this.HP = 100;
         direction = "right";
     }
 
     public void getPlayerImage(){
-        try {
             //right
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_right_2.png"));
-            right3 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_right_3.png"));
-
+            right1 = setup("Slime_right_1");
+            right2 = setup("Slime_right_2");
+            right3 = setup("Slime_right_3");
             //left
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_left_2.png"));
-            left3 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_left_3.png"));
+            left1 = setup("Slime_left_1");
+            left2 = setup("Slime_left_2");
+            left3 = setup("Slime_left_3");
 
             //up
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_up_2.png"));
-            up3 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_up_3.png"));
+            up1 = setup("Slime_up_1");
+            up2 = setup("Slime_up_2");
+            up3 = setup("Slime_up_3");
 
             //down
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_down_2.png"));
-            down3 = ImageIO.read(getClass().getResourceAsStream("/player/Slime_down_3.png"));
-        }catch (IOException e){
-            e.printStackTrace();
+            down1 = setup("Slime_down_1");
+            down2 = setup("Slime_down_2");
+            down3 = setup("Slime_down_3");
 
-        }
+    }
+
+    public BufferedImage setup(String imageName){
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage scaledImage = null;
+        try{
+            scaledImage = ImageIO.read(getClass().getResourceAsStream("/player/"+imageName+".png"));
+            scaledImage = uTool.scaleImage(scaledImage,gp.tileSize,gp.tileSize);
+        }catch (IOException e){e.printStackTrace();}
+
+        return scaledImage;
     }
 
     public void update() {
@@ -145,12 +153,15 @@ public class Player extends Entity{
                     if (hasKey >0){
                         hasKey--;
                         gp.obj[i] = null;
+                        gp.ui.showMessage("Door opened");
+                    } else {
+                        gp.ui.showMessage("You need a key");
                     }
                     break;
                 case "Key":
                     hasKey++;
                     gp.obj[i] = null;
-                    gp.ui.showMessage("You got a key!, you can use this to open door");
+                    gp.ui.showMessage("You got a key! you can use this to open door");
                     break;
                 case "Boot":
                     speed+=2;
@@ -198,6 +209,6 @@ public class Player extends Entity{
                 }
                 break;
         }
-        g2.drawImage(image ,screenX,screenY,gp.tileSize,gp.tileSize,null);
+        g2.drawImage(image ,screenX,screenY,null);
     }
 }

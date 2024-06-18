@@ -36,6 +36,11 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public SuperObject obj[] = new SuperObject[10];
 
+    //GAME STATE
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
+
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -48,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         aSetter.setObject();
-
+        gameState = playState;
     }
 
     public void startGameThread(){
@@ -85,12 +90,21 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
     public void update(){
-        player.update();
+
+        if(gameState == playState){
+            player.update();
+        }
+        if(gameState == pauseState){
+            //maybe
+        }
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
+        //debug
+        long drawStart = 0;
+        if (keyH.checkDrawTime == true){drawStart = System.nanoTime();}
 
 
         tileM.draw(g2);
@@ -102,6 +116,10 @@ public class GamePanel extends JPanel implements Runnable{
         }
         player.draw(g2);
         ui.draw(g2);
+        if (keyH.checkDrawTime == true){
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            System.out.println("drawTime: "+passed);}
         g2.dispose();
     }
 
