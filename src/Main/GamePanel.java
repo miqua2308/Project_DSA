@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //Important setting
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler(); //call the key handler
+    KeyHandler keyH = new KeyHandler(this); //call the key handler
     public UI ui = new UI(this);
     Thread gameThread; //start gameclock
     public  AssetSetter aSetter = new AssetSetter(this);
@@ -94,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable{
         if(gameState == playState){
             player.update();
         }
-        if(gameState == pauseState){
+        else if(gameState == pauseState){
             //maybe
         }
     }

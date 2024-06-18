@@ -13,7 +13,7 @@ public class OBJ_key extends SuperObject {
             e.printStackTrace();
         }
 
-        collision = true;
+        collision = false;
     }
 
 }
