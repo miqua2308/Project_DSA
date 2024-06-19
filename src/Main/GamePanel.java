@@ -1,5 +1,7 @@
 package Main;
 
+import entity.Entity;
+
 import entity.Player;
 import objects.SuperObject;
 import tile.TileManager;
@@ -32,12 +34,18 @@ public class GamePanel extends JPanel implements Runnable{
     public UI ui = new UI(this);
     Thread gameThread; //start gameclock
     public  AssetSetter aSetter = new AssetSetter(this);
-    public Player player = new Player(this,keyH);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
+
+    //ENTITY AND OBJECT
+    public Player player = new Player(this,keyH);
     public SuperObject obj[] = new SuperObject[10];
+    public Entity npc[] = new Entity[10];
+
+
 
     //GAME STATE
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
 
@@ -53,7 +61,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         aSetter.setObject();
-        gameState = playState;
+        aSetter.setNPC();
+        gameState = titleState;
     }
 
     public void startGameThread(){
@@ -106,16 +115,30 @@ public class GamePanel extends JPanel implements Runnable{
         long drawStart = 0;
         if (keyH.checkDrawTime == true){drawStart = System.nanoTime();}
 
+        //TITLE SCREEN
+        if(gameState == titleState){
+            ui.draw(g2);
+        }//other
+        else{
 
-        tileM.draw(g2);
 
-        for(int i = 0; i < obj.length; i++){
-            if(obj[i] != null){
-                obj[i].draw(g2,this);
+            tileM.draw(g2);
+
+            for(int i = 0; i < obj.length; i++){
+                if(obj[i] != null){
+                    obj[i].draw(g2,this);
+                }
             }
+            for(int i = 0; i < npc.length; i++){
+                if(npc[i] != null){
+                    npc[i].draw(g2);
+                }
+            }
+            player.draw(g2);
+            ui.draw(g2);
         }
-        player.draw(g2);
-        ui.draw(g2);
+
+
         if (keyH.checkDrawTime == true){
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;

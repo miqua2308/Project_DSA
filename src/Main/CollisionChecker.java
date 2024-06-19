@@ -134,4 +134,60 @@ public class CollisionChecker {
         return index;
     }
 
+    //CHECK NPC OR MONSTER
+    public int checkEntity(Entity entity,Entity[] target){
+        int index = 999;
+        for (int i=0; i< target.length;i++){
+            if(target[i] != null){
+                //get entity hitBox position
+                entity.hitBox.x = entity.worldX + entity.hitBox.x;
+                entity.hitBox.y = entity.worldY + entity.hitBox.y;
+                //get object hitBox position
+                target[i].hitBox.x = target[i].worldX + target[i].hitBox.x;
+                target[i].hitBox.y = target[i].worldY + target[i].hitBox.y;
+
+
+                switch (entity.direction){
+                    case "up":
+                        entity.hitBox.y -= entity.speed;
+                        if (entity.hitBox.intersects(target[i].hitBox)){
+                                entity.collision = true;
+                                index = i;
+                        }
+                        break;
+                    case "down":
+                        entity.hitBox.y += entity.speed;
+                        if (entity.hitBox.intersects(target[i].hitBox)){
+                                entity.collision = true;
+                                index = i;
+                        }break;
+                    case "left":
+                        entity.hitBox.x -= entity.speed;
+                        if (entity.hitBox.intersects(target[i].hitBox)){
+                                entity.collision = true;
+                                index = i;
+
+                        }break;
+                    case "right":
+                        entity.hitBox.x += entity.speed;
+                        if (entity.hitBox.intersects(target[i].hitBox)){
+                                entity.collision = true;
+                                index = i;
+
+                        }break;
+                }
+
+                entity.hitBox.x = entity.hitBoxDefaultX;
+                entity.hitBox.y = entity.hitBoxDefaultY;
+                target[i].hitBox.x= target[i].hitBoxDefaultX;
+                target[i].hitBox.y= target[i].hitBoxDefaultY;
+            }
+
+        }
+        return index;
+    }
+
+
+//    public void
+
 }

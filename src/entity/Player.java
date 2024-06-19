@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Entity{
-    GamePanel gp;
     KeyHandler keyH;
 
     //coordinate of screen
@@ -20,7 +19,7 @@ public class Player extends Entity{
 
 
     public Player(GamePanel gp, KeyHandler keyH){
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
         this.screenX = gp.screenWidth/2 -(gp.tileSize/2);
@@ -42,43 +41,45 @@ public class Player extends Entity{
     public void setDefaultValues(){
         this.worldX = gp.tileSize * 41; //coordiate of x in world map
         this.worldY = gp.tileSize * 48;
-        this.speed = 4;
-        this.HP = 100;
         direction = "right";
+    }
+
+    public void setWarriorDefault(){
+        this.speed =4;
+        this.HP=100;
+        this.currentHP = this.HP;
+        this.ATK = 15;
+    }
+
+    public void setArcherDefault(){
+        this.speed =6;
+        this.HP=75;
+        this.currentHP = this.HP;
+        this.ATK = 25;
     }
 
     public void getPlayerImage(){
             //right
-            right1 = setup("Slime_right_1");
-            right2 = setup("Slime_right_2");
-            right3 = setup("Slime_right_3");
+            right1 = setup("/player/Slime_right_1");
+            right2 = setup("/player/Slime_right_2");
+            right3 = setup("/player/Slime_right_3");
             //left
-            left1 = setup("Slime_left_1");
-            left2 = setup("Slime_left_2");
-            left3 = setup("Slime_left_3");
+            left1 = setup("/player/Slime_left_1");
+            left2 = setup("/player/Slime_left_2");
+            left3 = setup("/player/Slime_left_3");
 
             //up
-            up1 = setup("Slime_up_1");
-            up2 = setup("Slime_up_2");
-            up3 = setup("Slime_up_3");
+            up1 = setup("/player/Slime_up_1");
+            up2 = setup("/player/Slime_up_2");
+            up3 = setup("/player/Slime_up_3");
 
             //down
-            down1 = setup("Slime_down_1");
-            down2 = setup("Slime_down_2");
-            down3 = setup("Slime_down_3");
+            down1 = setup("/player/Slime_down_1");
+            down2 = setup("/player/Slime_down_2");
+            down3 = setup("/player/Slime_down_3");
 
     }
 
-    public BufferedImage setup(String imageName){
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage scaledImage = null;
-        try{
-            scaledImage = ImageIO.read(getClass().getResourceAsStream("/player/"+imageName+".png"));
-            scaledImage = uTool.scaleImage(scaledImage,gp.tileSize,gp.tileSize);
-        }catch (IOException e){e.printStackTrace();}
-
-        return scaledImage;
-    }
 
     public void update() {
 
@@ -103,6 +104,8 @@ public class Player extends Entity{
             //object collison
             int onjIndex = gp.collisionChecker.checkObject(this,true);
             pickUpObject(onjIndex);
+            int npcindex = gp.collisionChecker.checkEntity(this,gp.npc);
+            interactNPC(npcindex);
 
             //if collision is false => player can move
             if (!collision) {
@@ -147,6 +150,13 @@ public class Player extends Entity{
         if(i != 999){
         }
     }
+    public void interactNPC(int i){
+        if(i != 999){
+            //wait for update
+        }
+    }
+
+
     public void draw(Graphics2D g2){
         BufferedImage image = null;
         switch (direction){
@@ -188,5 +198,10 @@ public class Player extends Entity{
                 break;
         }
         g2.drawImage(image ,screenX,screenY,null);
+
     }
+
+
+
+
 }
