@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread; //start gameclock
     public  AssetSetter aSetter = new AssetSetter(this);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public EventHandler eHandler = new EventHandler(this);
 
     //ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
@@ -48,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int dialogueState = 3;
 
 
     public GamePanel(){

@@ -7,6 +7,7 @@ public class KeyHandler implements KeyListener {
     GamePanel gp;
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     boolean checkDrawTime = false;
+    public boolean enterPressed = false;
 
     //GAME STATE
     public KeyHandler(GamePanel gp){
@@ -39,6 +40,7 @@ public class KeyHandler implements KeyListener {
 
 
                 if(code == KeyEvent.VK_ENTER){
+
                     if(gp.ui.commandNum == 0){
                         gp.ui.titleScreenState =1;
                     }
@@ -120,15 +122,23 @@ public class KeyHandler implements KeyListener {
                     checkDrawTime = false;
                 }
             }
+            else if (code == KeyEvent.VK_ENTER){
+                enterPressed = true;
+            }
         }
 
         else if (gp.gameState == gp.pauseState){
             if(code == KeyEvent.VK_P){
                 gp.gameState = gp.playState;
             }
+        } else if (gp.gameState == gp.dialogueState) {
+            if(code == KeyEvent.VK_ENTER){
+                gp.gameState = gp.playState;
+            }
         }
 
     }
+
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -144,6 +154,9 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_D){
             rightPressed = false;
+        }
+        if (code == KeyEvent.VK_ENTER){
+            enterPressed = false;
         }
     }
 

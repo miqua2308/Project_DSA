@@ -13,7 +13,7 @@ public class UI {
     public String message = "";
     public int messageCounter = 0 ;
     public boolean gameFinished = false;
-
+    public String currentDialouge = "";
     public int commandNum = 0;
 
     public int titleScreenState = 0; // 0: the first, 1: the second
@@ -43,6 +43,10 @@ public class UI {
         if(gp.gameState == gp.pauseState){
             drawPlayerHealth();
             drawPauseScreen();
+        }
+        if (gp.gameState == gp.dialogueState){
+            drawPlayerHealth();
+            drawDialogueScreen();
         }
     }
 
@@ -77,6 +81,27 @@ public class UI {
         g2.drawString(healthText, textX, textY);
     }
 
+    public void drawDialogueScreen(){
+        //subwindow
+        int x = gp.tileSize*2;
+        int y = gp.tileSize/2;
+        int width = gp.screenWidth - (gp.tileSize*4);
+        int height = gp.tileSize *5;
+        drawSubWindow(x,y,width,height);
+        x += gp.tileSize;
+        y += gp.tileSize;
+        g2.setFont(new Font("Arial", Font.BOLD, 12));
+        g2.setColor(Color.WHITE);
+        g2.drawString(currentDialouge,x,y);
+    }
+
+    public void drawSubWindow(int x,int y,int width,int height){
+        int arcWidth = 35;
+        int arcHeight = 35;
+        Color c = new Color(0,0,0,210); //black
+        g2.setColor(c);
+        g2.fillRoundRect(x,y,width,height,arcWidth,arcHeight);
+    }
     public void drawTitleScreeen(){
 
         //checking the subState of the screen

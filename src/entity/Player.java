@@ -106,6 +106,7 @@ public class Player extends Entity{
             pickUpObject(onjIndex);
             int npcindex = gp.collisionChecker.checkEntity(this,gp.npc);
             interactNPC(npcindex);
+            gp.eHandler.checkEvent();
 
             //if collision is false => player can move
             if (!collision) {
