@@ -83,45 +83,24 @@ public class CollisionChecker {
                 switch (entity.direction){
                     case "up":
                         entity.hitBox.y -= entity.speed;
-                        if (entity.hitBox.intersects(gp.obj[i].hitBox)){
-                            if(gp.obj[i].collision){
-                                entity.collision = true;
-                            }
-                            if (player){
-                                index = i;
-                            }
-                        }
                         break;
                     case "down":
                         entity.hitBox.y += entity.speed;
-                        if (entity.hitBox.intersects(gp.obj[i].hitBox)){
-                            if(gp.obj[i].collision){
-                                entity.collision = true;
-                            }
-                            if (player){
-                                index = i;
-                            }
-                        }break;
+                       break;
                     case "left":
                         entity.hitBox.x -= entity.speed;
-                        if (entity.hitBox.intersects(gp.obj[i].hitBox)){
-                            if(gp.obj[i].collision){
-                                entity.collision = true;
-                            }
-                            if (player){
-                                index = i;
-                            }
-                        }break;
+                        break;
                     case "right":
                         entity.hitBox.x += entity.speed;
-                        if (entity.hitBox.intersects(gp.obj[i].hitBox)){
-                            if(gp.obj[i].collision){
-                                entity.collision = true;
-                            }
-                            if (player){
-                                index = i;
-                            }
-                        }break;
+                        break;
+                }
+                if (entity.hitBox.intersects(gp.obj[i].hitBox)){
+                    if(gp.obj[i].collision){
+                        entity.collision = true;
+                    }
+                    if (player){
+                        index = i;
+                    }
                 }
 
                 entity.hitBox.x = entity.hitBoxDefaultX;
@@ -150,33 +129,23 @@ public class CollisionChecker {
                 switch (entity.direction){
                     case "up":
                         entity.hitBox.y -= entity.speed;
-                        if (entity.hitBox.intersects(target[i].hitBox)){
-                                entity.collision = true;
-                                index = i;
-                        }
                         break;
                     case "down":
                         entity.hitBox.y += entity.speed;
-                        if (entity.hitBox.intersects(target[i].hitBox)){
-                                entity.collision = true;
-                                index = i;
-                        }break;
+                        break;
                     case "left":
                         entity.hitBox.x -= entity.speed;
-                        if (entity.hitBox.intersects(target[i].hitBox)){
-                                entity.collision = true;
-                                index = i;
-
-                        }break;
+                        break;
                     case "right":
                         entity.hitBox.x += entity.speed;
-                        if (entity.hitBox.intersects(target[i].hitBox)){
-                                entity.collision = true;
-                                index = i;
-
-                        }break;
+                        break;
                 }
-
+                if (entity.hitBox.intersects(target[i].hitBox)){
+                    if (target[i] != entity) {
+                        entity.collision = true;
+                        index = i;
+                    }
+                }
                 entity.hitBox.x = entity.hitBoxDefaultX;
                 entity.hitBox.y = entity.hitBoxDefaultY;
                 target[i].hitBox.x= target[i].hitBoxDefaultX;
@@ -187,7 +156,44 @@ public class CollisionChecker {
         return index;
     }
 
+    public void checkPlayer(Entity entity){
+        //get entity hitBox position
+        entity.hitBox.x = entity.worldX + entity.hitBox.x;
+        entity.hitBox.y = entity.worldY + entity.hitBox.y;
+        //get object hitBox position
+        gp.player.hitBox.x = gp.player.worldX + gp.player.hitBox.x;
+        gp.player.hitBox.y = gp.player.worldY + gp.player.hitBox.y;
 
-//    public void
+
+        switch (entity.direction){
+            case "up":
+                entity.hitBox.y -= entity.speed;
+                if (entity.hitBox.intersects(gp.player.hitBox)){
+                    entity.collision = true;
+                }
+                break;
+            case "down":
+                entity.hitBox.y += entity.speed;
+                if (entity.hitBox.intersects(gp.player.hitBox)){
+                    entity.collision = true;
+                }break;
+            case "left":
+                entity.hitBox.x -= entity.speed;
+                if (entity.hitBox.intersects(gp.player.hitBox)){
+                    entity.collision = true;
+
+                }break;
+            case "right":
+                entity.hitBox.x += entity.speed;
+                if (entity.hitBox.intersects(gp.player.hitBox)){
+                    entity.collision = true;
+                }break;
+        }
+
+        entity.hitBox.x = entity.hitBoxDefaultX;
+        entity.hitBox.y = entity.hitBoxDefaultY;
+        gp.player.hitBox.x= gp.player.hitBoxDefaultX;
+        gp.player.hitBox.y= gp.player.hitBoxDefaultY;
+    }
 
 }

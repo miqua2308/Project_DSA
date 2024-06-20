@@ -41,6 +41,7 @@ public class Player extends Entity{
     public void setDefaultValues(){
         this.worldX = gp.tileSize * 41; //coordiate of x in world map
         this.worldY = gp.tileSize * 48;
+        this.name = "player";
         direction = "right";
     }
 
@@ -83,7 +84,7 @@ public class Player extends Entity{
 
     public void update() {
 
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
             if (keyH.upPressed) {
                 direction = "up";
             }
@@ -106,10 +107,13 @@ public class Player extends Entity{
             pickUpObject(onjIndex);
             int npcindex = gp.collisionChecker.checkEntity(this,gp.npc);
             interactNPC(npcindex);
+            int monsterIndex = gp.collisionChecker.checkEntity(this,gp.monster);
+
+            //check event
             gp.eHandler.checkEvent();
 
             //if collision is false => player can move
-            if (!collision) {
+            if (!collision && !keyH.enterPressed) {
                 switch (direction) {
                     case "up":
                         worldY -= speed;
@@ -125,25 +129,27 @@ public class Player extends Entity{
                         break;
                 }
             }
+
+            gp.keyH.enterPressed = false;
+            // I have 3 image of slime that change the Y direction, so in order to make it move
+            // I just need to loop it
+            this.spriteCounter++;
+            if (this.spriteCounter > 10) {
+                if (this.spriteNum == 1) {
+                    this.spriteNum = 2;
+                } else if (this.spriteNum == 2 && this.spritNum2 == 0) {
+                    this.spriteNum = 3;
+                } else if (this.spriteNum == 3 && this.spritNum2 == 0) {
+                    this.spriteNum = 2;
+                    this.spritNum2 = 1;
+                } else if (this.spriteNum == 2 && this.spritNum2 == 1) {
+                    this.spriteNum = 1;
+                    this.spritNum2 = 0;
+                }
+                this.spriteCounter = 0;
+            }
         }
 
-        // I have 3 image of slime that change the Y direction, so in order to make it move
-        // I just need to loop it
-            spriteCounter++;
-            if (spriteCounter > 10) {
-                if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2 && spritNum2 == 0) {
-                    spriteNum = 3;
-                } else if (spriteNum == 3 && spritNum2 == 0) {
-                    spriteNum = 2;
-                    spritNum2 = 1;
-                } else if (spriteNum == 2 && spritNum2 == 1) {
-                    spriteNum = 1;
-                    spritNum2 = 0;
-                }
-                spriteCounter = 0;
-            }
     }
 
 
@@ -162,38 +168,38 @@ public class Player extends Entity{
         BufferedImage image = null;
         switch (direction){
             case "up":
-                if (spriteNum == 1){
+                if (this.spriteNum == 1){
                     image = up1;}
-                if (spriteNum == 2){
+                if (this.spriteNum == 2){
                     image = up2;}
-                if (spriteNum == 3){
+                if (this.spriteNum == 3){
                     image = up3;
                 }
                 break;
             case "down":
-                if (spriteNum == 1){
+                if (this.spriteNum == 1){
                     image = down1;}
-                if (spriteNum == 2){
+                if (this.spriteNum == 2){
                     image = down2;}
-                if (spriteNum == 3){
+                if (this.spriteNum == 3){
                     image = down3;
                 }
                 break;
             case "right":
-                if (spriteNum == 1){
+                if (this.spriteNum == 1){
                     image = right1;}
-                if (spriteNum == 2){
+                if (this.spriteNum == 2){
                     image = right2;}
-                if (spriteNum == 3){
+                if (this.spriteNum == 3){
                     image = right3;
                 }
                 break;
             case "left":
-                if (spriteNum == 1){
+                if (this.spriteNum == 1){
                     image = left1;}
-                if (spriteNum == 2){
+                if (this.spriteNum == 2){
                     image = left2;}
-                if (spriteNum == 3){
+                if (this.spriteNum == 3){
                     image = left3;
                 }
                 break;

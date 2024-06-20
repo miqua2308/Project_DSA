@@ -14,10 +14,12 @@ public abstract class Entity {
     public int HP;
     public int ATK;
     public int currentHP;
+    public String name;
+    public int actionLockCounter;
     GamePanel gp;
     //Image of an entity
     public BufferedImage up1,up2,up3,down1,down2,down3,left1,left2,left3,right1,right2,right3;
-    public String direction;
+    public String direction = "down";
     public int spriteCounter = 0;
     public int spriteNum = 1;
     public int spritNum2 = 0;
@@ -90,6 +92,50 @@ public abstract class Entity {
         }catch (IOException e){e.printStackTrace();}
 
         return scaledImage;
+    }
+
+    public void setAction(){}
+    public void update(){
+        setAction();
+        collision = false;
+        gp.collisionChecker.checkTile(this);
+        gp.collisionChecker.checkObject(this,false);
+//        gp.collisionChecker.checkEntity(this,gp.npc);
+        gp.collisionChecker.checkEntity(this,gp.monster);
+        gp.collisionChecker.checkPlayer(this);
+        if (!collision) {
+            switch (direction) {
+                case "up":
+                    worldY -= speed;
+                    break;
+                case "down":
+                    worldY += speed;
+                    break;
+                case "right":
+                    worldX += speed;
+                    break;
+                case "left":
+                    worldX -= speed;
+                    break;
+            }
+        }
+
+        this.spriteCounter++;
+        if (this.spriteCounter > 10) {
+            if (this.spriteNum == 1) {
+                this.spriteNum = 2;
+            } else if (this.spriteNum == 2 && this.spritNum2 == 0) {
+                this.spriteNum = 3;
+            } else if (this.spriteNum == 3 && this.spritNum2 == 0) {
+                this.spriteNum = 2;
+                this.spritNum2 = 1;
+            } else if (this.spriteNum == 2 && this.spritNum2 == 1) {
+                this.spriteNum = 1;
+                this.spritNum2 = 0;
+            }
+            this.spriteCounter = 0;
+        }
+
     }
 
 }
