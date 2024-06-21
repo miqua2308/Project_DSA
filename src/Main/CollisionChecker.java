@@ -156,7 +156,8 @@ public class CollisionChecker {
         return index;
     }
 
-    public void checkPlayer(Entity entity){
+    public boolean checkPlayer(Entity entity){
+        boolean contactPlayer = false;
         //get entity hitBox position
         entity.hitBox.x = entity.worldX + entity.hitBox.x;
         entity.hitBox.y = entity.worldY + entity.hitBox.y;
@@ -168,32 +169,27 @@ public class CollisionChecker {
         switch (entity.direction){
             case "up":
                 entity.hitBox.y -= entity.speed;
-                if (entity.hitBox.intersects(gp.player.hitBox)){
-                    entity.collision = true;
-                }
                 break;
             case "down":
                 entity.hitBox.y += entity.speed;
-                if (entity.hitBox.intersects(gp.player.hitBox)){
-                    entity.collision = true;
-                }break;
+               break;
             case "left":
                 entity.hitBox.x -= entity.speed;
-                if (entity.hitBox.intersects(gp.player.hitBox)){
-                    entity.collision = true;
-
-                }break;
+                break;
             case "right":
                 entity.hitBox.x += entity.speed;
-                if (entity.hitBox.intersects(gp.player.hitBox)){
-                    entity.collision = true;
-                }break;
+                break;
+        }
+        if (entity.hitBox.intersects(gp.player.hitBox)){
+            entity.collision = true;
+            contactPlayer = true;
         }
 
         entity.hitBox.x = entity.hitBoxDefaultX;
         entity.hitBox.y = entity.hitBoxDefaultY;
         gp.player.hitBox.x= gp.player.hitBoxDefaultX;
         gp.player.hitBox.y= gp.player.hitBoxDefaultY;
+        return contactPlayer;
     }
 
 }

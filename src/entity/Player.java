@@ -34,8 +34,15 @@ public class Player extends Entity{
         hitBox.width = gp.tileSize/2; // i has calculate it outside
         hitBox.height = gp.tileSize/2;
 
+
+        //ATTACK AREA
+
+        attackArea.width =36;
+        attackArea.height = 36;
+
         getPlayerImage();
         setDefaultValues();
+        getPlayerAttackImage();
     }
 
     public void setDefaultValues(){
@@ -81,8 +88,25 @@ public class Player extends Entity{
 
     }
 
+    public void getPlayerAttackImage(){
+        attackUp1 = setup("/player/Slime_up_1");
+        attackUp2 = setup("/player/Slime_attack_up_2");
+
+        attackDown1 = setup("/player/Slime_attack_down_1");
+        attackDown2 = setup("/player/Slime_attack_down_2");
+
+        attackLeft1 = setup("/player/Slime_attack_left_1");
+        attackLeft2 = setup("/player/Slime_attack_left_2");
+
+        attackRight1 = setup("/player/Slime_attack_right_1");
+        attackRight2 = setup("/player/Slime_attack_right_2");
+    }
 
     public void update() {
+
+        if (attacking == true){
+            attacking();
+        }
 
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
             if (keyH.upPressed) {
@@ -107,7 +131,11 @@ public class Player extends Entity{
             pickUpObject(onjIndex);
             int npcindex = gp.collisionChecker.checkEntity(this,gp.npc);
             interactNPC(npcindex);
+            if (gp.keyH.enterPressed == true){
+                attacking = true;
+            }
             int monsterIndex = gp.collisionChecker.checkEntity(this,gp.monster);
+            contactMonster(monsterIndex);
 
             //check event
             gp.eHandler.checkEvent();
@@ -150,9 +178,57 @@ public class Player extends Entity{
             }
         }
 
+        if (invicible == true){
+            invicibleCount++;
+            if (invicibleCount == 60){
+                invicible = false;
+                invicibleCount =0;
+            }
+        }
+
     }
 
 
+    public void attacking(){
+        spriteCounter++;
+        if(spriteCounter<=5){
+            spriteNum = 1;
+        }
+        if (spriteCounter > 5 && spriteCounter <=25){
+            spriteNum =2;
+            int currentWorldX = worldX;
+            int currentWorldY = worldY;
+            int hitboxWidth = hitBox.width;
+            int hitboxHeight = hitBox.height;
+
+
+            //ATACKKK
+            switch (direction){
+                case "up":worldY-=attackArea.height;break;
+                case "down": worldY += attackArea.height;break;
+                case "left": worldX-= attackArea.width;break;
+                case "right": worldX+= attackArea.width;break;
+            }
+
+            hitBox.width = attackArea.width;
+            hitBox.height = attackArea.height;
+
+            int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monster);
+            damageMonster(monsterIndex);
+            //return to original
+            worldX = currentWorldX;
+            worldY = currentWorldY;
+            hitBox.width = hitboxWidth;
+            hitBox.height = hitboxHeight;
+
+        }
+
+        if(spriteCounter >25){
+            spriteNum =1 ;
+            spriteCounter =0;
+            attacking = false;
+        }
+    }
     public void pickUpObject(int i){
         if(i != 999){
         }
@@ -163,44 +239,115 @@ public class Player extends Entity{
         }
     }
 
+    public void contactMonster(int i){
+        if (i != 999){
+            if (invicible == false) {
+                currentHP -= gp.monster[i].ATK;
+                invicible = true;
+            }
+        }
+    }
+
+    public void damageMonster(int i){
+        if(i != 999) {
+            if (gp.monster[i].invicible == false) {
+                gp.monster[i].currentHP -= gp.player.ATK;
+                gp.monster[i].invicible = true;
+                gp.monster[i].damageReaction();
+
+                if (gp.monster[i].currentHP <= 0) {
+                    gp.monster[i].dying = true;
+                }
+            }
+        }
+    }
+
 
     public void draw(Graphics2D g2){
         BufferedImage image = null;
         switch (direction){
             case "up":
-                if (this.spriteNum == 1){
-                    image = up1;}
-                if (this.spriteNum == 2){
-                    image = up2;}
-                if (this.spriteNum == 3){
-                    image = up3;
+                if (attacking == false) {
+                    if (this.spriteNum == 1) {
+                        image = up1;
+                    }
+                    if (this.spriteNum == 2) {
+                        image = up2;
+                    }
+                    if (this.spriteNum == 3) {
+                        image = up3;
+                    }
+                }
+                if (attacking == true){
+                    if (this.spriteNum == 1) {
+                        image = attackUp1;
+                    }
+                    if (this.spriteNum == 2) {
+                        image = attackUp2;
+                    }
                 }
                 break;
             case "down":
-                if (this.spriteNum == 1){
-                    image = down1;}
-                if (this.spriteNum == 2){
-                    image = down2;}
-                if (this.spriteNum == 3){
-                    image = down3;
+                if (attacking == false) {
+                    if (this.spriteNum == 1) {
+                        image = down1;
+                    }
+                    if (this.spriteNum == 2) {
+                        image = down2;
+                    }
+                    if (this.spriteNum == 3) {
+                        image = down3;
+                    }
+                }
+                if (attacking){
+                    if (this.spriteNum == 1) {
+                        image = attackDown1;
+                    }
+                    if (this.spriteNum == 2) {
+                        image = attackDown2;
+                    }
                 }
                 break;
             case "right":
-                if (this.spriteNum == 1){
-                    image = right1;}
-                if (this.spriteNum == 2){
-                    image = right2;}
-                if (this.spriteNum == 3){
-                    image = right3;
+                if (attacking == false) {
+                    if (this.spriteNum == 1) {
+                        image = right1;
+                    }
+                    if (this.spriteNum == 2) {
+                        image = right2;
+                    }
+                    if (this.spriteNum == 3) {
+                        image = right3;
+                    }
+                }
+                if (attacking){
+                    if (this.spriteNum == 1) {
+                        image = attackRight1;
+                    }
+                    if (this.spriteNum == 2) {
+                        image = attackRight2;
+                    }
                 }
                 break;
             case "left":
-                if (this.spriteNum == 1){
-                    image = left1;}
-                if (this.spriteNum == 2){
-                    image = left2;}
-                if (this.spriteNum == 3){
-                    image = left3;
+                if (attacking == false) {
+                    if (this.spriteNum == 1) {
+                        image = left1;
+                    }
+                    if (this.spriteNum == 2) {
+                        image = left2;
+                    }
+                    if (this.spriteNum == 3) {
+                        image = left3;
+                    }
+                }
+                if (attacking == true){
+                    if (this.spriteNum == 1) {
+                        image = attackLeft1;
+                    }
+                    if (this.spriteNum == 2) {
+                        image = attackLeft2;
+                    }
                 }
                 break;
         }

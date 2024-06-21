@@ -6,12 +6,17 @@ import entity.Entity;
 import java.util.Random;
 
 public class MON_Jelly extends Entity {
+    GamePanel gp;
     public MON_Jelly(GamePanel gp) {
         super(gp);
+
+        this.gp = gp;
         name = "Jelly";
         speed = 1;
-        HP = 30;
+        HP = 100;
         currentHP = HP;
+        ATK = 2;
+        type =2;
 
         hitBox.x = 9;
         hitBox.y = 27;
@@ -54,6 +59,12 @@ public class MON_Jelly extends Entity {
             if (i > 75 && i <= 100) { direction = "right";}
             actionLockCounter = 0;
         }
+    }
+
+    public void damageReaction() {
+        actionLockCounter =0;
+        direction = gp.player.direction;
+
     }
 }
 
