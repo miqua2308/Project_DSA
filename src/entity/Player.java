@@ -3,13 +3,16 @@ package entity;
 import Main.GamePanel;
 import Main.KeyHandler;
 import Main.UtilityTool;
+import Observer_design_pattern.Observer;
+import Observer_design_pattern.Subject;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player extends Entity{
+//THIS WILL BE THE SUBJECT
+public class Player extends Entity implements Subject {
     KeyHandler keyH;
 
     //coordinate of screen
@@ -69,7 +72,7 @@ public class Player extends Entity{
         this.level = 1;
         this.exp =0;
         this.nextLevelExp = this.level*5;
-        this.speed =4;
+        this.speed =10;
         this.HP=100;
         this.currentHP = this.HP;
         this.ATK = 15;
@@ -154,6 +157,9 @@ public class Player extends Entity{
             contactMonster(monsterIndex);
 
             //check event
+            if (gp.eHandler.hit(41,45,"up") && gp.keyH.enterPressed == true){
+                heal();
+            }
             gp.eHandler.checkEvent();
 
             //if collision is false => player can move
@@ -216,6 +222,10 @@ public class Player extends Entity{
     }
 
 
+    public void heal() {
+        notifyObservers("heal", null);
+    }
+
     public void attacking(){
         spriteCounter++;
         if(spriteCounter<=5){
@@ -273,6 +283,12 @@ public class Player extends Entity{
                 }
                 else if (gp.obj[i].name == "Door" && hasKey >= 1) {
                     gp.obj[i] = null;
+                }
+            }
+
+            if (gp.obj[i] != null){
+                if(gp.obj[i].name == "Boat" && gp.keyH.enterPressed == true){
+                    gp.gameState = gp.gameWinState;
                 }
             }
         }

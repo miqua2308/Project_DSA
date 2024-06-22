@@ -25,6 +25,7 @@ public abstract class Entity {
     public boolean alive = true;
     public boolean dying = false;
     public boolean hpBaron = false;
+    public boolean onPath = false;
     public int currentHP;
     public String name;
     public int actionLockCounter;
@@ -172,6 +173,76 @@ public abstract class Entity {
     public void changeAlpha(Graphics2D g2,float alphaValue){
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alphaValue));
     }
+
+    public void searchPath(int goalCol,int goalRow){
+        int startCol = (worldX + hitBox.x)/gp.tileSize;
+        int startRow = (worldY + hitBox.y)/gp.tileSize;
+
+        gp.pFinder.setNode(startCol,startRow,goalCol,goalRow,this);
+
+        if (gp.pFinder.search() == true){
+            //next WorldX WorldY
+            int nextX = gp.pFinder.pathList.get(0).col*gp.tileSize;
+            int nextY = gp.pFinder.pathList.get(0).row*gp.tileSize;
+
+
+            //Entity hitbox position
+            int enLeftX = worldX + hitBox.x; 
+            int enRightX = worldX + hitBox.x + hitBox.width;
+            int enTopY = worldY + hitBox.y;
+            int enBottomY = worldY + hitBox.y + hitBox.height;
+
+            if (enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
+                direction = "up";
+            }
+            else if (enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
+                direction = "down";
+            }
+            else if (enTopY >= nextY && enBottomY < nextY + gp.tileSize) {
+                if (enLeftX > nextX) {
+                    direction = "left";
+                }
+                if(enLeftX < nextX){
+                    direction = "right";
+                }
+            }
+            else if(enTopY > nextY && enLeftX > nextX){
+                direction = "up";
+                checkCollison();
+                if (collision == true){
+                    direction = "left";
+                }
+            }
+            else if(enTopY > nextY && enLeftX < nextX){
+                direction = "up";
+                checkCollison();
+                if (collision == true){
+                    direction = "right";
+                }
+            }
+            else if(enTopY < nextY && enLeftX > nextX){
+                direction = "down";
+                checkCollison();
+                if (collision == true){
+                    direction = "left";
+                }
+            }
+            else if(enTopY < nextY && enLeftX < nextX){
+                direction = "down";
+                checkCollison();
+                if (collision == true){
+                    direction = "right";
+                }
+            }
+//            int nextCol = gp.pFinder.pathList.get(0).col;
+//            int nextRow = gp.pFinder.pathList.get(0).row;
+//            if(nextCol == goalCol && nextRow == goalRow){
+//                onPath = false;
+//            }
+
+
+        }
+    }
     public BufferedImage setup(String imageName){
         UtilityTool uTool = new UtilityTool();
         BufferedImage scaledImage = null;
@@ -188,8 +259,8 @@ public abstract class Entity {
     public void damageReaction(){
 
     }
-    public void update(){
-        setAction();
+
+    public void checkCollison(){
         collision = false;
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this,false);
@@ -202,6 +273,10 @@ public abstract class Entity {
                 gp.player.invicible = true;
             }
         }
+    }
+    public void update(){
+        setAction();
+        checkCollison();
         if (!collision) {
             switch (direction) {
                 case "up":

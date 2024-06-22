@@ -1,12 +1,15 @@
 package Main;
 
+import Observer_design_pattern.Observer;
+
 import java.awt.*;
 
-public class EventHandler {
+public class EventHandler implements Observer {
 
     GamePanel gp;
     EvenRect eRect[][];
-    public EventHandler(GamePanel gp){
+    private static EventHandler instance;
+    private EventHandler(GamePanel gp){
         this.gp = gp;
         eRect = new EvenRect[gp.maxWorldCol][gp.maxWorldRow];
 
@@ -29,16 +32,37 @@ public class EventHandler {
         }
     }
 
+    public static EventHandler createEventHandler(GamePanel gp) {
+        if (instance == null) {
+            instance = new EventHandler(gp);
+        }
+        return instance;
+    }
 
+
+    @Override
+    public void update(String eventType, Object data) {
+        healingPool(gp.dialogueState);
+    }
     public void checkEvent(){
 
         if(hit(39, 48, "any")){
             //event happen
             damagePit(39,48,gp.dialogueState);
         }
-        if (hit(41,45,"up")){
-            healingPool(gp.dialogueState);
+
+        if (hit(24,45,"any") || hit(24,44,"any")){
+            eRect[24][45].eventDone = true;
+            eRect[24][44].eventDone = true;
+            spawnRACER(29,45,gp.dialogueState);
         }
+        if (hit(24,20,"any") || hit(25,20,"any")){
+            spawnTree(24,21,2);
+            spawnTree(25,21,3);
+        }
+//        if (hit(41,45,"up")){
+//            healingPool(gp.dialogueState);
+//        }
     }
 
     public boolean hit(int col,int row,String reqDirection){
@@ -69,6 +93,15 @@ public class EventHandler {
         gp.player.currentHP -= 96;
         eRect[col][row].eventDone = true;
     }
+    public void spawnRACER(int col , int row, int gameState){
+        gp.gameState = gameState;
+        gp.ui.currentDialouge = "RACER APPEAR";
+        gp.aSetter.setRacer(col,row);
+    }
+
+    public void spawnTree(int col,int row,int i){
+        gp.aSetter.setTree(col,row,i);
+    }
 
     public void restartEven(int col,int row){
         eRect[col][row].eventDone = false;
@@ -82,4 +115,6 @@ public class EventHandler {
         }
         gp.keyH.enterPressed = false;
     }
+
+
 }

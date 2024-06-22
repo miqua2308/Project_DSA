@@ -1,5 +1,7 @@
 package Main;
 
+import AI.PathFinder;
+import Stack.Stack;
 import entity.Entity;
 
 import entity.Player;
@@ -32,13 +34,15 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
 
     //Important setting
-    TileManager tileM = new TileManager(this);
-    public KeyHandler keyH = new KeyHandler(this); //call the key handler
-    public UI ui = new UI(this);
     Thread gameThread; //start gameclock
-    public  AssetSetter aSetter = new AssetSetter(this);
-    public CollisionChecker collisionChecker = new CollisionChecker(this);
-    public EventHandler eHandler = new EventHandler(this);
+    //call all the SINGLETON
+    public TileManager tileM = TileManager.createTileManager(this);
+    public KeyHandler keyH = KeyHandler.createKeyHandler(this); //call the key handler
+    public UI ui = UI.createUI(this);
+    public  AssetSetter aSetter = AssetSetter.createAssetSetter(this);
+    public CollisionChecker collisionChecker = CollisionChecker.createCollisionChecker(this);
+    public EventHandler eHandler = EventHandler.createEventHandler(this);
+    public PathFinder pFinder = PathFinder.createPathFinder(this);
 
     //ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
@@ -46,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[10];
 
-    ArrayList<Entity> entityList = new ArrayList<>();
+    Stack<Entity> entityList = new Stack<Entity>();
 
 
 
@@ -59,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int characterState = 4;
     public final int optionState = 5;
     public final int gameOverState = 6;
+    public final int gameWinState =7;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -132,6 +137,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void update(){
 
         if(gameState == playState){
+            player.addObserver(eHandler);
             player.update();
             for (int i = 0; i<npc.length;i++){
                 if(npc[i] != null){
@@ -170,36 +176,36 @@ public class GamePanel extends JPanel implements Runnable{
             //TILE
             tileM.draw(g2);
             //ENTITY
-            entityList.add(player);
+            entityList.push(player);
             for (int i = 0 ; i < npc.length; i++){
                 if (npc[i] != null){
-                    entityList.add(npc[i]);
+                    entityList.push(npc[i]);
                 }
             }
             for (int i = 0 ; i < obj.length; i++){
                 if (obj[i] != null){
-                    entityList.add(obj[i]);
+                    entityList.push(obj[i]);
                 }
             }
             for (int i = 0 ; i < monster.length; i++){
                 if (monster[i] != null){
-                    entityList.add(monster[i]);
+                    entityList.push(monster[i]);
                 }
             }
-
             //SORT THE ARRAY LIST
-            Collections.sort(entityList, new Comparator<Entity>() {
-                @Override
-                public int compare(Entity e1, Entity e2) {
-                    int result = Integer.compare(e1.worldY,e2.worldY);
-                    return result;
-                }
-            });
+            sortStack();
+//            Collections.sort(entityList, new Comparator<Entity>() {
+//                @Override
+//                public int compare(Entity e1, Entity e2) {
+//                    int result = Integer.compare(e1.worldY,e2.worldY);
+//                    return result;
+//                }
+//            });
 
-            for (int i = 0; i < entityList.size();i++){
-                entityList.get(i).draw(g2);
-        }
-            entityList.clear();
+            while (!entityList.isEmpty()) {
+                Entity entity = entityList.pop();
+                entity.draw(g2);
+            }
             //UI
             ui.draw(g2);
         }
@@ -210,6 +216,23 @@ public class GamePanel extends JPanel implements Runnable{
             long passed = drawEnd - drawStart;
             System.out.println("drawTime: "+passed);}
         g2.dispose();
+    }
+
+    public void sortStack() {
+        ArrayList<Entity> tempList = new ArrayList<>();
+
+        // Pop all elements from the stack into tempList
+        while (!entityList.isEmpty()) {
+            tempList.add(entityList.pop());
+        }
+
+        // Sort the tempList by worldY
+        tempList.sort(Comparator.comparingInt(e -> e.worldY));
+
+        // Push the sorted elements back onto the stack
+        for (Entity entity : tempList) {
+            entityList.push(entity);
+        }
     }
 
 }

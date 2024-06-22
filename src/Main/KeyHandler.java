@@ -1,17 +1,26 @@
 package Main;
 
+import tile.TileManager;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     GamePanel gp;
+    private static KeyHandler instance;
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     boolean checkDrawTime = false;
     public boolean enterPressed = false;
 
     //GAME STATE
-    public KeyHandler(GamePanel gp){
+    private KeyHandler(GamePanel gp){
         this.gp = gp;
+    }
+    public static KeyHandler createKeyHandler(GamePanel gp) {
+        if (instance == null) {
+            instance = new KeyHandler(gp);
+        }
+        return instance;
     }
     @Override
     public void keyTyped(KeyEvent e) {
@@ -52,6 +61,10 @@ public class KeyHandler implements KeyListener {
 
         else if (gp.gameState == gp.gameOverState) {
             gameOverState(code);
+        }
+
+        else if (gp.gameState == gp.gameWinState){
+            gameWinState(code);
         }
 
 
@@ -159,11 +172,11 @@ public class KeyHandler implements KeyListener {
 
 
         if(code == KeyEvent.VK_T){
-            if(checkDrawTime == false){
-                checkDrawTime = true;
+            if (gp.tileM.drawPath == false){
+                gp.tileM.drawPath = true;
             }
-            else if(checkDrawTime == true){
-                checkDrawTime = false;
+            else if (gp.tileM.drawPath == true){
+                gp.tileM.drawPath = false;
             }
         }
         else if (code == KeyEvent.VK_ENTER){
@@ -216,6 +229,13 @@ public class KeyHandler implements KeyListener {
 
 
 
+    }
+
+    public void gameWinState(int code){
+
+        if (code == KeyEvent.VK_ENTER){
+            System.exit(0);
+        }
     }
 
     public void gameOverState(int code){

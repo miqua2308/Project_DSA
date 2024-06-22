@@ -5,9 +5,16 @@ import entity.Entity;
 public class CollisionChecker {
 
     GamePanel gp;
+    private static CollisionChecker instance;
 
-    public CollisionChecker(GamePanel gp){
+    private CollisionChecker(GamePanel gp){
         this.gp = gp;
+    }
+    public static CollisionChecker createCollisionChecker(GamePanel gp) {
+        if (instance == null) {
+            instance = new CollisionChecker(gp);
+        }
+        return instance;
     }
 
     public void checkTile(Entity entity){

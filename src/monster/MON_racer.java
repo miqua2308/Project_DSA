@@ -5,18 +5,19 @@ import entity.Entity;
 
 import java.util.Random;
 
-public class MON_Jelly extends Entity {
+public class MON_racer extends Entity {
     GamePanel gp;
-    public MON_Jelly(GamePanel gp) {
+    public MON_racer(GamePanel gp) {
         super(gp);
 
         this.gp = gp;
-        name = "Jelly";
-        speed = 1;
-        HP = 100;
+        name = "Racer";
+        speed = 5;
+        HP = 1000;
         currentHP = HP;
-        ATK = 2;
-        type =2;
+        ATK = 50;
+        type = 2;
+        onPath = true;
 
         hitBox.x = 9;
         hitBox.y = 27;
@@ -75,11 +76,9 @@ public class MON_Jelly extends Entity {
         }
     }
 
-    public void damageReaction() {
-        actionLockCounter =0;
-        direction = gp.player.direction;
-        onPath = true;
-
-    }
+//    public void damageReaction() {
+//        actionLockCounter =0;
+//        direction = gp.player.direction;
+//    }
 }
 

@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class UI {
     GamePanel gp;
+    private static UI instance;
     Font aial_40;
     Graphics2D g2;
     public boolean messageOn = false;
@@ -20,9 +21,16 @@ public class UI {
     public int titleScreenState = 0; // 0: the first, 1: the second
 
 
-    public UI(GamePanel gp){
+    private UI(GamePanel gp){
         this.gp = gp;
         aial_40 = new Font("Arial",Font.PLAIN,40);
+    }
+
+    public static UI createUI(GamePanel gp) {
+        if (instance == null) {
+            instance = new UI(gp);
+        }
+        return instance;
     }
 
 
@@ -57,6 +65,9 @@ public class UI {
         }
         if (gp.gameState == gp.gameOverState){
             drawGameOverScreen();
+        }
+        if (gp.gameState == gp.gameWinState){
+            drawWinScreen();
         }
     }
 
@@ -457,6 +468,39 @@ public class UI {
         g2.drawString(text,x,y);
         if (commandNum == 1){
             g2.drawString(">", x -40,y);
+        }
+
+
+
+    }
+
+    public void drawWinScreen(){
+        g2.setColor(new Color(0,0,0,150));
+        g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+
+        int x;
+        int y;
+        String text;
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,100f) );
+
+        text = "YOU WIN";
+        g2.setColor(Color.BLACK);
+        x = getXforCenteredText(text);
+        y = gp.tileSize*4;
+        g2.drawString(text,x,y);
+        //main
+        g2.setColor(Color.white);
+        g2.drawString(text,x-4,y-4);
+
+        g2.setFont(g2.getFont().deriveFont(50f));
+        //back to title screen
+        text = "Quit";
+        x = getXforCenteredText(text);
+        y += gp.tileSize*4;
+        g2.drawString(text,x,y);
+        if (commandNum == 0){
+            g2.drawString(">", x -50,y);
         }
 
 
