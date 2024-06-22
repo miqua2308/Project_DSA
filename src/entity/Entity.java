@@ -13,6 +13,15 @@ public abstract class Entity {
     public int speed;
     public int HP;
     public int ATK;
+    public int level;
+    public int str;
+    public int dex;
+    public int def;
+    public int exp;
+    public int nextLevelExp;
+    public int coin;
+    public Entity currentWeapon;
+    public Entity currentShield;
     public boolean alive = true;
     public boolean dying = false;
     public boolean hpBaron = false;

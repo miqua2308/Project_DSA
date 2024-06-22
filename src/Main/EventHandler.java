@@ -66,13 +66,17 @@ public class EventHandler {
     public void damagePit(int col , int row ,int gameState){
         gp.gameState = gameState;
         gp.ui.currentDialouge = "YOU FALL";
-        gp.player.currentHP -= 10;
+        gp.player.currentHP -= 96;
         eRect[col][row].eventDone = true;
     }
 
+    public void restartEven(int col,int row){
+        eRect[col][row].eventDone = false;
+    }
     public void healingPool(int gameState){
         if (gp.keyH.enterPressed) {
             gp.gameState = gameState;
+            gp.player.attackCanceled = true;
             gp.ui.currentDialouge = "HEAL water";
             gp.player.currentHP = gp.player.HP;
         }

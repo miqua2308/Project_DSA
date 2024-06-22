@@ -22,123 +22,230 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode();
         //TITLE STATE
         if (gp.gameState == gp.titleState){
-            //cheking subState
-            if (gp.ui.titleScreenState == 0){
-
-                if(code == KeyEvent.VK_W){
-                    gp.ui.commandNum--;
-                    if (gp.ui.commandNum <0){
-                        gp.ui.commandNum =2;
-                    }
-                }
-                if(code == KeyEvent.VK_S){
-                    gp.ui.commandNum++;
-                    if (gp.ui.commandNum >2){
-                        gp.ui.commandNum =0;
-                    }
-                }
-
-
-                if(code == KeyEvent.VK_ENTER){
-
-                    if(gp.ui.commandNum == 0){
-                        gp.ui.titleScreenState =1;
-                    }
-
-                    if(gp.ui.commandNum == 1){
-                        //add later
-                    }
-
-                    if(gp.ui.commandNum == 2){
-                        System.exit(0);
-                    }
-                }
-            }
-
-            else if (gp.ui.titleScreenState == 1){
-
-                if(code == KeyEvent.VK_W){
-                    gp.ui.commandNum--;
-                    if (gp.ui.commandNum <0){
-                        gp.ui.commandNum =2;
-                    }
-                }
-                if(code == KeyEvent.VK_S){
-                    gp.ui.commandNum++;
-                    if (gp.ui.commandNum >2){
-                        gp.ui.commandNum =0;
-                    }
-                }
-
-
-                if(code == KeyEvent.VK_ENTER){
-                    if(gp.ui.commandNum == 0){
-                        gp.gameState = gp.playState;
-                        gp.player.setWarriorDefault();
-                    }
-
-                    if(gp.ui.commandNum == 1){
-                        gp.gameState = gp.playState;
-                        gp.player.setArcherDefault();
-                    }
-
-                    if(gp.ui.commandNum == 2){
-                        gp.ui.titleScreenState = 0;
-                    }
-                }
-            }
-
-
+            tileState(code);
         }
-
-
 
         //PLAY STATE
         else if (gp.gameState == gp.playState){
-            if(code == KeyEvent.VK_W){
-                upPressed = true;
-            }
-            if(code == KeyEvent.VK_A){
-                leftPressed = true;
-            }
-            if(code == KeyEvent.VK_S){
-                downPressed = true;
-            }
-            if(code == KeyEvent.VK_D){
-                rightPressed = true;
-            }
-            if(code == KeyEvent.VK_P){
-                gp.gameState = gp.pauseState;
-            }
-            if(code == KeyEvent.VK_ESCAPE){
-                System.exit(0);
-            }
-
-            if(code == KeyEvent.VK_T){
-                if(checkDrawTime == false){
-                    checkDrawTime = true;
-                }
-                else if(checkDrawTime == true){
-                    checkDrawTime = false;
-                }
-            }
-            else if (code == KeyEvent.VK_ENTER){
-                enterPressed = true;
-            }
+            playState(code);
         }
 
+        //PAUSE STATE
         else if (gp.gameState == gp.pauseState){
-            if(code == KeyEvent.VK_P){
-                gp.gameState = gp.playState;
-            }
-        } else if (gp.gameState == gp.dialogueState) {
-            if(code == KeyEvent.VK_ENTER){
-                gp.gameState = gp.playState;
-            }
+            pauseState(code);
+
         }
+        //DIALOGUE STATE
+        else if (gp.gameState == gp.dialogueState) {
+            dialogueState(code);
+        }
+
+        //characterState
+        else if (gp.gameState == gp.characterState){
+            characterState(code);
+        }
+        
+        //option state
+        else if (gp.gameState == gp.optionState) {
+            optionState(code);
+        }
+
+        else if (gp.gameState == gp.gameOverState) {
+            gameOverState(code);
+        }
+
 
     }
 
+    public void tileState(int code){
+
+        //cheking subState
+        if (gp.ui.titleScreenState == 0){
+
+            if(code == KeyEvent.VK_W){
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum <0){
+                    gp.ui.commandNum =2;
+                }
+            }
+            if(code == KeyEvent.VK_S){
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum >2){
+                    gp.ui.commandNum =0;
+                }
+            }
+
+
+            if(code == KeyEvent.VK_ENTER){
+
+                if(gp.ui.commandNum == 0){
+                    gp.ui.titleScreenState =1;
+                }
+
+                if(gp.ui.commandNum == 1){
+                    //add later
+                }
+
+                if(gp.ui.commandNum == 2){
+                    System.exit(0);
+                }
+            }
+        }
+
+        else if (gp.ui.titleScreenState == 1){
+
+            if(code == KeyEvent.VK_W){
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum <0){
+                    gp.ui.commandNum =2;
+                }
+            }
+            if(code == KeyEvent.VK_S){
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum >2){
+                    gp.ui.commandNum =0;
+                }
+            }
+
+
+            if(code == KeyEvent.VK_ENTER){
+                if(gp.ui.commandNum == 0){
+                    gp.gameState = gp.playState;
+                    gp.player.setWarriorDefault();
+                    gp.player.jobType = 1; // 1 is warrior
+                    gp.ui.commandNum = 0;
+                }
+
+                if(gp.ui.commandNum == 1){
+                    gp.gameState = gp.playState;
+                    gp.player.setArcherDefault();
+                    gp.player.jobType = 2; //2 is Archer;
+                    gp.ui.commandNum = 0;
+                }
+
+                if(gp.ui.commandNum == 2){
+                    gp.ui.titleScreenState = 0;
+                    gp.ui.commandNum = 0;
+                }
+            }
+        }
+
+
+    }
+    public void playState(int code){
+
+        if(code == KeyEvent.VK_W){
+            upPressed = true;
+        }
+        if(code == KeyEvent.VK_A){
+            leftPressed = true;
+        }
+        if(code == KeyEvent.VK_S){
+            downPressed = true;
+        }
+        if(code == KeyEvent.VK_D){
+            rightPressed = true;
+        }
+        if(code == KeyEvent.VK_P){
+            gp.gameState = gp.pauseState;
+        }
+
+        if (code == KeyEvent.VK_E){
+            gp.gameState = gp.characterState;
+        }
+        if(code == KeyEvent.VK_ESCAPE){
+            gp.gameState = gp.optionState;
+        }
+
+
+        if(code == KeyEvent.VK_T){
+            if(checkDrawTime == false){
+                checkDrawTime = true;
+            }
+            else if(checkDrawTime == true){
+                checkDrawTime = false;
+            }
+        }
+        else if (code == KeyEvent.VK_ENTER){
+            enterPressed = true;
+        }
+
+
+    }
+    public void pauseState(int code){
+        if(code == KeyEvent.VK_P){
+            gp.gameState = gp.playState;
+        }
+    }
+    public void dialogueState(int code){
+        if(code == KeyEvent.VK_ENTER){
+            gp.gameState = gp.playState;
+        }
+    }
+    public void characterState(int code){
+        if (code == KeyEvent.VK_E){
+            gp.gameState = gp.playState;
+        }
+    }
+
+    public void optionState(int code){
+        if (code == KeyEvent.VK_ESCAPE){
+            gp.gameState = gp.playState;
+            gp.ui.subState=0;
+        }
+        if (code == KeyEvent.VK_ENTER){
+            enterPressed = true;
+        }
+        int maxCommandNum = 0;
+        switch (gp.ui.subState){
+            case 0: maxCommandNum = 2; break;
+            case 2: maxCommandNum = 1; break;
+        }
+        if (code == KeyEvent.VK_W){
+            gp.ui.commandNum --;
+            if (gp.ui.commandNum <0){
+                gp.ui.commandNum = maxCommandNum;
+            }
+        }
+        if (code == KeyEvent.VK_S){
+            gp.ui.commandNum++;
+            if(gp.ui.commandNum > maxCommandNum){
+                gp.ui.commandNum =0;
+            }
+        }
+
+
+
+    }
+
+    public void gameOverState(int code){
+        if (code == KeyEvent.VK_W){
+            gp.ui.commandNum --;
+            if (gp.ui.commandNum <0){
+                gp.ui.commandNum = 1;
+            }
+        }
+
+        if (code == KeyEvent.VK_S){
+            gp.ui.commandNum++;
+            if (gp.ui.commandNum >1){
+                gp.ui.commandNum = 0;
+            }
+        }
+
+        if (code == KeyEvent.VK_ENTER){
+            if (gp.ui.commandNum == 0){
+                gp.gameState = gp.playState;
+                gp.retry();
+            }
+            else if (gp.ui.commandNum == 1){
+                gp.ui.titleScreenState =0;
+                gp.ui.commandNum = 0;
+                gp.gameState = gp.titleState;
+                gp.restart();
+            }
+        }
+    }
 
     @Override
     public void keyReleased(KeyEvent e) {

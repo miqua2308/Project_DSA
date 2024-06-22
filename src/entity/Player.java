@@ -16,6 +16,10 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
 
+    public boolean attackCanceled = false;
+    public int jobType = 0;
+    public int hasKey = 0;
+
 
 
     public Player(GamePanel gp, KeyHandler keyH){
@@ -51,8 +55,20 @@ public class Player extends Entity{
         this.name = "player";
         direction = "right";
     }
+    public void setDefaultPosition(){
+        this.worldX = gp.tileSize * 41; //coordiate of x in world map
+        this.worldY = gp.tileSize * 48;
+        direction = "right";
+    }
 
+    public void restoreHP(){
+        currentHP = HP;
+        invicible = false;
+    }
     public void setWarriorDefault(){
+        this.level = 1;
+        this.exp =0;
+        this.nextLevelExp = this.level*5;
         this.speed =4;
         this.HP=100;
         this.currentHP = this.HP;
@@ -60,6 +76,9 @@ public class Player extends Entity{
     }
 
     public void setArcherDefault(){
+        this.level = 1;
+        this.exp = 0;
+        this.nextLevelExp = this.level*4;
         this.speed =6;
         this.HP=75;
         this.currentHP = this.HP;
@@ -131,9 +150,6 @@ public class Player extends Entity{
             pickUpObject(onjIndex);
             int npcindex = gp.collisionChecker.checkEntity(this,gp.npc);
             interactNPC(npcindex);
-            if (gp.keyH.enterPressed == true){
-                attacking = true;
-            }
             int monsterIndex = gp.collisionChecker.checkEntity(this,gp.monster);
             contactMonster(monsterIndex);
 
@@ -158,6 +174,12 @@ public class Player extends Entity{
                 }
             }
 
+            if (keyH.enterPressed == true && attackCanceled == false){
+                attacking = true;
+                spriteCounter = 0;
+            }
+
+            attackCanceled = false;
             gp.keyH.enterPressed = false;
             // I have 3 image of slime that change the Y direction, so in order to make it move
             // I just need to loop it
@@ -184,6 +206,11 @@ public class Player extends Entity{
                 invicible = false;
                 invicibleCount =0;
             }
+        }
+
+
+        if(currentHP <=0 ){
+            gp.gameState = gp.gameOverState;
         }
 
     }
@@ -230,12 +257,30 @@ public class Player extends Entity{
         }
     }
     public void pickUpObject(int i){
-        if(i != 999){
+        if(i != 999) {
+            if (gp.obj[i] != null) {
+                if (gp.obj[i].name == "Key") {
+                    hasKey++;
+                    gp.obj[i] = null;
+                    gp.gameState = gp.dialogueState;
+                    gp.ui.currentDialouge = "YOU PICKUP A KEY";
+                }
+            }
+            if (gp.obj[i] != null) {
+                if (gp.obj[i].name == "Door" && hasKey < 1) {
+                    gp.gameState = gp.dialogueState;
+                    gp.ui.currentDialouge = "YOU NEED A KEY";
+                }
+                else if (gp.obj[i].name == "Door" && hasKey >= 1) {
+                    gp.obj[i] = null;
+                }
+            }
         }
+
     }
     public void interactNPC(int i){
         if(i != 999){
-            //wait for update
+            attackCanceled = true;
         }
     }
 

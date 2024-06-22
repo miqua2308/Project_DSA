@@ -56,7 +56,9 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
-
+    public final int characterState = 4;
+    public final int optionState = 5;
+    public final int gameOverState = 6;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -74,6 +76,26 @@ public class GamePanel extends JPanel implements Runnable{
         gameState = titleState;
     }
 
+    public void retry(){
+        player.setDefaultPosition();
+        player.restoreHP();
+        aSetter.setMonster();
+    }
+
+    public void restart(){
+        if (player.jobType == 1){
+            player.setWarriorDefault();
+            aSetter.setObject();
+            aSetter.setMonster();
+            eHandler.restartEven(39, 48);
+        }
+        if (player.jobType == 2){
+            player.setArcherDefault();
+            aSetter.setObject();
+            aSetter.setMonster();
+            eHandler.restartEven(39, 48);
+        }
+    }
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
