@@ -24,8 +24,8 @@ public class MON_racer extends Entity {
 
         hitBox.x = 9;
         hitBox.y = 27;
-        hitBox.width = 30;
-        hitBox.height = 24;
+        hitBox.width = 40;
+        hitBox.height = 40;
         hitBoxDefaultX = hitBox.x;
         hitBoxDefaultY = hitBox.y;
 

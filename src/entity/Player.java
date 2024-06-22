@@ -75,7 +75,7 @@ public class Player extends Entity implements Subject {
         this.level = 1;
         this.exp =0;
         this.nextLevelExp = this.level*5;
-        this.speed =5;
+        this.speed =15;
         this.HP=100;
         this.currentHP = this.HP;
         this.ATK = 15;

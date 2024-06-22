@@ -59,7 +59,8 @@ public class EventHandler implements Observer {
             eRect[24][44].eventDone = true;
             spawnRACER(29,45,gp.dialogueState);
         }
-        if (hit(24,20,"any") || hit(25,20,"any")){
+        if (hit(24,20,"any") || hit(25,20,"any") ||
+                hit(24,19,"any") || hit(25,19,"any")){
             spawnTree(24,21,2);
             spawnTree(25,21,3);
         }

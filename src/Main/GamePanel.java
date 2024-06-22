@@ -93,16 +93,27 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void restart(){
         if (player.jobType == 1){
+            for (int i = 0; i < monster.length; i++) {
+                monster[i] = null;
+            }
             player.setWarriorDefault();
+            player.setDefaultPosition();
             aSetter.setObject();
             aSetter.setMonster();
             eHandler.restartEven(39, 48);
+            eHandler.restartEven(24,45);
+            player.hasKey = 0;
         }
         if (player.jobType == 2){
+            for (int i = 0; i < monster.length; i++) {
+                monster[i] = null;
+            }
             player.setArcherDefault();
+            player.setDefaultPosition();
             aSetter.setObject();
             aSetter.setMonster();
             eHandler.restartEven(39, 48);
+            player.hasKey = 0;
         }
     }
     public void startGameThread(){
