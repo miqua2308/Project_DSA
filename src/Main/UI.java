@@ -1,3 +1,7 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class handles the user interface elements of the game
+ , including displaying messages, dialogues, and game states on the screen.
+*/
 package Main;
 
 import objects.OBJ_key;

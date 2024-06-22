@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This interface defines the Subject in the Observer design pattern. It provides methods to add, remove, and notify observers.
+*/
 package Observer_design_pattern;
 import java.util.List;
 import java.util.ArrayList;

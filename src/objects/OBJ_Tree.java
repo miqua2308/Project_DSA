@@ -1,4 +1,8 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class represents a tree object in the game. It includes properties and methods specific to the tree.
+*/
 package objects;
+
 
 import Main.GamePanel;
 import entity.Entity;

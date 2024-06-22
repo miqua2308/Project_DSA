@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This abstract class defines the basic attributes and methods for all entities in the game, including players, NPCs, and monsters.
+*/
 package entity;
 
 import Main.GamePanel;

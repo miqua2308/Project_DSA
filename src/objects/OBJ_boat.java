@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class represents a boat object in the game. It includes properties and methods specific to the boat.
+*/
 package objects;
 
 import Main.GamePanel;

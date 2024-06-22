@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class manages the tiles in the game, including loading tile maps and rendering tiles on the screen.
+*/
 package tile;
 
 import Main.GamePanel;

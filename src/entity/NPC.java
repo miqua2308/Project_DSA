@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class represents non-player characters (NPCs) in the game. It includes methods for updating NPC state and rendering NPCs on the screen.
+*/
 package entity;
 
 import Main.GamePanel;
@@ -6,6 +9,7 @@ import Main.UtilityTool;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
 import java.util.Random;
 
 public class NPC extends Entity{

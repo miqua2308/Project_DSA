@@ -1,4 +1,8 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class contains the main method to start the game. It initializes the game window and starts the game loop.
+*/
 package Main;
+
 
 import javax.swing.*;
 

@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose: This class checks for collisions between entities and objects in the game. It ensures that entities interact correctly with the game environment.
+*/
 package Main;
 
 import entity.Entity;

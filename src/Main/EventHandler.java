@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class handles in-game events and triggers specific actions when certain conditions are met within the game.
+*/
 package Main;
 
 import Observer_design_pattern.Observer;

@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class provides utility functions such as scaling images. It assists in processing game resources efficiently.
+*/
 package Main;
 
 import java.awt.*;

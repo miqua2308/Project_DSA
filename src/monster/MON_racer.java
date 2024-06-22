@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class represents a racer monster in the game. It includes properties and methods specific to the racer monster.
+*/
 package monster;
 
 import Main.GamePanel;

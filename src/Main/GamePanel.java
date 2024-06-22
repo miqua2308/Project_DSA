@@ -1,3 +1,7 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class is responsible for the main game panel where the game is rendered. It handles game initialization,
+ game loop, and rendering of game components.
+*/
 package Main;
 
 import AI.PathFinder;

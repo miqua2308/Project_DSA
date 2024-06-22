@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class represents the player character in the game. It includes methods for updating the player's state and rendering the player on the screen.
+*/
 package entity;
 
 import Main.GamePanel;

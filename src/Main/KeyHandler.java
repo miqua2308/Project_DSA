@@ -1,3 +1,7 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class manages keyboard input for the game.
+ It detects and processes key presses to control the player and other game actions.
+*/
 package Main;
 
 import tile.TileManager;

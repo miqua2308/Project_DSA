@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class represents a node used in the pathfinding algorithm. It includes properties to store node positions and costs.
+*/
 package AI;
 
 public class Node {

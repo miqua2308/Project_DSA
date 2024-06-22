@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class implements pathfinding algorithms to allow entities to navigate the game world efficiently.
+*/
 package AI;
 
 import Main.GamePanel;

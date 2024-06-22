@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose: This class implements a generic stack data structure. It provides methods to push, pop, peek, and check if the stack is empty.
+*/
 package Stack;
 
 import java.util.EmptyStackException;

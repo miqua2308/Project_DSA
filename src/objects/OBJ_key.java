@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class represents a key object in the game. It includes properties and methods specific to the key.
+*/
 package objects;
 
 import Main.GamePanel;

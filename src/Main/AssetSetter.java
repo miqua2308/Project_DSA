@@ -1,3 +1,6 @@
+/* Name: Nguyen Phuc Minh Quan ITDSIU22163
+ Purpose:This class sets up and initializes various game assets such as objects, NPCs, and monsters within the game world.
+*/
 package Main;
 
 import entity.NPC;
